@@ -1,11 +1,12 @@
+
 const express = require('express');
 const router = express.Router();
-const proveedorController = require('../controllers/proveecontroller');
+const { obtenerProveedores, agregarProveedor } = require('../controllers/proveecontroller');
 
-// Rutas para el manejo de proveedores
-router.post('/', proveedorController.createProveedor);
-router.get('/', proveedorController.getAllProveedores);
-router.put('/:proveedorId', proveedorController.updateProveedor);
-router.delete('/:proveedorId', proveedorController.deleteProveedor);
+// Ruta para obtener todos los proveedores
+router.get('/', obtenerProveedores);
+
+// Ruta para agregar un nuevo proveedor
+router.post('/', agregarProveedor);
 
 module.exports = router;

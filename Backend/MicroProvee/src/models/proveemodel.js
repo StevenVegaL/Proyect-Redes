@@ -1,33 +1,24 @@
+
+
+//----------------------------------
 const mongoose = require('mongoose');
 
-const proveedorSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
-  nombreEmpresa: {
+const proveedorSchema = mongoose.Schema({
+  nombre: {
     type: String,
-    required: true
+    required: true,
   },
-  ubicacion: {
+  direccion: {
     type: String,
-    required: true
+    required: true,
   },
   telefono: {
     type: String,
-    required: true
-  },
-  emailProv: {
-    type: String,
     required: true,
-    unique: true
   },
-  fechaSuministro: {
-    type: Date,
-    required: true
-  },
-  producto_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'Producto' // Asume que hay un modelo 'Producto'
-  }
 });
 
-module.exports = mongoose.model('Proveedor', proveedorSchema);
+const Proveedor = mongoose.model('Proveedor', proveedorSchema);
+
+module.exports = Proveedor;
+
