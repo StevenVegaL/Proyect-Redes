@@ -1,25 +1,20 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const userRoutes = require('./routes/userroute');
+const userRoutes = require('./routes/userroute'); // Asegúrate de que la ruta sea correcta
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
-app.use('/users', userRoutes);
+// Conexión a MongoDB
+mongoose.connect('tu_cadena_de_conexion_a_mongodb', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Conectado a MongoDB'))
+  .catch(err => console.error('No se pudo conectar a MongoDB', err));
 
-// MongoDB connection
-mongoose.connect('mongodb://localhost:27017/microUserDB', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch(err => {
-  console.error('Could not connect to MongoDB', err);
-});
+app.use(express.json()); // Middleware para parsear JSON
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`MicroUser service running on port ${port}`);
+// Usar las rutas de usuario
+app.use('/api/usuarios', userRoutes);
+
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
