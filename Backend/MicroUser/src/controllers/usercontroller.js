@@ -1,55 +1,66 @@
 const express = require('express');
 const router = express.Router();
-const UsuarioService = require('../services/UsuarioService');
+const Usuario = require('./models/usermodel'); // Asumiendo que usermodel.js exporta una clase o modelo de Mongoose
 
-// Get all usuarios
-router.get('/', async (req, res) => {
-  try {
-    const usuarios = await UsuarioService.getAllUsuarios();
-    res.json(usuarios);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+// Obtener todos los usuarios
+exports.getAllUsuarios = async (req, res) => {
+    try {
+        const usuarios = await Usuario.find();
+        res.json(usuarios);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+};
 
-// Get usuario by ID
-router.get('/:id', async (req, res) => {
-  try {
-    const usuario = await UsuarioService.getUsuarioById(req.params.id);
-    res.json(usuario);
-  } catch (error) {
-    res.status(404).send(error);
-  }
-});
+// Obtener un usuario por ID
+exports.getUsuarioById = async (req, res) => {
+    try {
+        const usuario = await Usuario.findById(req.params.id);
+        if (!usuario) {
+            res.status(404).send("Usuario no encontrado");
+        } else {
+            res.json(usuario);
+        }
+    } catch (error) {
+        res.status(500).send(error);
+    }
+};
 
-// Create a new usuario
-router.post('/', async (req, res) => {
-  try {
-    const newUsuario = await UsuarioService.createUsuario(req.body);
-    res.status(201).json(newUsuario);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
+// Crear un nuevo usuario
+exports.createUsuario = async (req, res) => {
+    try {
+        const usuario = new Usuario(req.body);
+        await usuario.save();
+        res.status(201).json(usuario);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+};
 
-// Update a usuario
-router.put('/:id', async (req, res) => {
-  try {
-    const updatedUsuario = await UsuarioService.updateUsuario(req.params.id, req.body);
-    res.json(updatedUsuario);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
+// Actualizar un usuario
+exports.updateUsuario = async (req, res) => {
+    try {
+        const usuario = await Usuario.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!usuario) {
+            res.status(404).send("Usuario no encontrado");
+        } else {
+            res.json(usuario);
+        }
+    } catch (error) {
+        res.status(400).send(error);
+    }
+};
 
-// Delete a usuario
-router.delete('/:id', async (req, res) => {
-  try {
-    await UsuarioService.deleteUsuario(req.params.id);
-    res.status(204).send();
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-module.exports = router;
+// Eliminar un usuario
+exports.deleteUsuario = async (req, res) => {
+    try {
+        const usuario = await Usuario.findByIdAndDelete(req.params.id);
+        if (!usuario) {
+            res.status(404).send("Usuario no encontrado");
+        } else {
+            res.status(204).send();
+        }
+    } catch (error) {
+        res.status(500).send(error);
+    }
+};
