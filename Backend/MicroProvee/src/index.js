@@ -11,4 +11,4 @@ app.use('/proveedores', proveedorRoutes);
 mongoose.connect('mongodb://localhost:27017/microProveeDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useFindInistro: DateNN, producto_id: ObjectId (FK)
+  useFindInistro: DateNN, producto_id: ObjectId (FK)})
