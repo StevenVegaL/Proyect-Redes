@@ -18,5 +18,25 @@ const pedidosSchema = new mongoose.Schema({
     detalle: [detalleSchema] // Array de Detalles
 }, { timestamps: true }); // Agrega automáticamente campos para createdAt y updatedAt
 
-module.exports = mongoose.model('Pedidos', pedidosSchema);
+// Métodos estáticos para operaciones de consulta
+pedidosSchema.statics.findPedidosByProveedorId = function (proveedorId) {
+    return this.find({ "detalle.proveedor_id": proveedorId });
+};
 
+pedidosSchema.statics.findByEstadoEnvio = function (estadoEnvio) {
+    return this.find({ estadoEnvio: estadoEnvio });
+};
+
+pedidosSchema.statics.findByNumeroFactura = function (numeroFactura) {
+    return this.findOne({ numeroFactura: numeroFactura });
+};
+
+pedidosSchema.statics.findPedidosByFechaPedido = function (fechaPedido) {
+    return this.find({ fechaPedido: { $eq: fechaPedido } });
+};
+
+pedidosSchema.statics.findPedidosByClienteId = function (clienteId) {
+    return this.find({ cliente_id: clienteId });
+};
+
+module.exports = mongoose.model('Pedidos', pedidosSchema);
