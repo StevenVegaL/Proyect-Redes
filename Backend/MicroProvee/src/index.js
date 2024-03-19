@@ -1,25 +1,20 @@
-
-
-//---------------------------------------
-
 const express = require('express');
 const mongoose = require('mongoose');
-const proveeRoute = require('./src/routes/proveeroute');
+const proveeRoutes = require('./routes/proveeroute'); // Asegúrate de que la ruta sea correcta
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-// Conexión a la base de datos
-mongoose.connect('mongodb://localhost:27017/sabortostado', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// Conexión a MongoDB
+mongoose.connect('tu_cadena_de_conexion_mongodb', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Conectado a MongoDB...'))
+  .catch(err => console.error('No se pudo conectar a MongoDB...', err));
 
-app.use(express.json());
+app.use(express.json()); // Middleware para parsear JSON
 
-// Uso de las rutas para proveedores
-app.use('/api/proveedores', proveeRoute);
+// Usar las rutas para el microservicio de proveedores
+app.use('/api', proveeRoutes);
 
 app.listen(port, () => {
-  console.log(`Microservicio de proveedores corriendo en el puerto ${port}`);
+  console.log(`Servidor ejecutándose en el puerto ${port}`);
 });
