@@ -1,28 +1,22 @@
 const express = require('express');
-const { connectDB } = require('./src/db/config');
-const proveeRoute = require('./src/routes/proveeroute');
+const { connectDB } = require('./db/config');
+const morgan = require("morgan");
+const cors = require("cors");
 
 const app = express();
 
-// Conectar a la base de datos
 connectDB();
 
-// Middleware para parsear el cuerpo de las solicitudes
 app.use(express.json());
 
-// Rutas para los proveedores
-app.use('/api/proveedores', proveeRoute);
+const port = 3004;
 
-// Manejador de errores genérico
-app.use((err, req, res, next) => {
-    res.status(500).json({
-        status: 'error',
-        message: err.message
-    });
-});
+app.use(express.json());
+app.use(morgan("dev"));
+app.use(cors());
 
-const PORT = process.env.PORT || 3001;
+app.use('/api/provee', require('./routes/proveeroute'));
 
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
+app.listen(port, () => {
+  console.log("Server listening on",port);
 });

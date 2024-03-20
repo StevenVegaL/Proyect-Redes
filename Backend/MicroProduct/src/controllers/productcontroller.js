@@ -1,106 +1,100 @@
 const Product = require('../models/productmodel');
 
-exports.createProduct = async (req, res) => {
-    try {
-        const newProduct = await Product.create(req.body);
-        res.status(201).json({
-            status: 'success',
-            data: {
-                product: newProduct
-            }
-        });
-    } catch (err) {
-        res.status(400).json({
-            status: 'fail',
-            message: err.message
-        });
-    }
-};
-
-exports.getProducts = async (req, res) => {
+const getProducts = async (req, res) => {
     try {
         const products = await Product.find();
         res.status(200).json({
-            status: 'success',
-            results: products.length,
-            data: {
-                products
-            }
+            ok: true,
+            count: products.length,
+            products
         });
     } catch (err) {
         res.status(404).json({
-            status: 'fail',
-            message: err.message
+            ok: false,
+            error: err.message
         });
     }
 };
 
-exports.getProduct = async (req, res) => {
+const getProduct = async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
         if (!product) {
-            return res.status(404).json({
-                status: 'fail',
+            res.status(404).json({
+                ok: false,
                 message: 'Product not found'
             });
-        }
-        res.status(200).json({
-            status: 'success',
-            data: {
+        } else {
+            res.status(200).json({
+                ok: true,
                 product
-            }
-        });
+            });
+        }
     } catch (err) {
         res.status(404).json({
-            status: 'fail',
-            message: 'Product not found'
+            ok: false,
+            error: err.message
         });
     }
 };
 
-exports.updateProduct = async (req, res) => {
+
+const createProduct = async (req, res) => {
     try {
-        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
+        const newProduct = await Product.create(req.body);
+        res.status(201).json({
+            ok: true,
+            product: newProduct
         });
+    } catch (err) {
+        res.status(400).json({
+            ok: false,
+            error: err.message
+        });
+    }
+};
+
+const updateProduct = async (req, res) => {
+    try {
+        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!updatedProduct) {
-            return res.status(404).json({
-                status: 'fail',
+            res.status(404).json({
+                ok: false,
                 message: 'Product not found'
             });
-        }
-        res.status(200).json({
-            status: 'success',
-            data: {
+        } else {
+            res.status(200).json({
+                ok: true,
                 product: updatedProduct
-            }
-        });
+            });
+        }
     } catch (err) {
         res.status(404).json({
-            status: 'fail',
-            message: err.message
+            ok: false,
+            error: err.message
         });
     }
 };
 
-exports.deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res) => {
     try {
-        const product = await Product.findByIdAndDelete(req.params.id);
-        if (!product) {
-            return res.status(404).json({
-                status: 'fail',
-                message: 'Product not found'
-            });
-        }
+        await Product.findByIdAndDelete(req.params.id);
         res.status(204).json({
-            status: 'success',
-            data: null
+            ok: true,
+            message: 'Product successfully deleted'
         });
     } catch (err) {
         res.status(404).json({
-            status: 'fail',
-            message: err.message
+            ok: false,
+            error: err.message
         });
     }
+};
+
+module.exports = {
+    createProduct,
+    getProducts,
+    getProduct,
+    updateProduct,
+    deleteProduct
 };
