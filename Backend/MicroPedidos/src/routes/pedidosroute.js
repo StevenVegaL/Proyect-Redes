@@ -3,10 +3,10 @@ const router = express.Router();
 const pedidosController = require('../controllers/pedidoscontroller');
 
 // Obtener todos los pedidos
-// router.get('/', pedidoscontroller.getAllPedidos);
+router.get('/', pedidosController.getAllPedidos);
 
 // // Obtener un pedido por su ID
-router.get('/:id', pedidosController.getPedidoById);
+// router.get('/:id', pedidosController.getPedidoById);
 
 // // Crear un nuevo pedido
 // router.post('/', pedidosController.createPedido);

@@ -1,32 +1,32 @@
 const Pedido = require('../models/pedidosmodels'); // Asegúrate de que la ruta al modelo es correcta
 
-// const getAllPedidos = async (req, res) => {
-//     try {
-//         const pedidos = await Pedido.find();
-//         res.status(200).json({
-//             ok: true,
-//             pedidos,
-//         });
-//     } catch (error) {
-//         res.status(500).send(error);
-//     }
-// };
-
-const getPedidoById = async (req, res) => {
+const getAllPedidos = async (req, res) => {
     try {
-        const pedido = await Pedido.findById(req.params.id);
-        if (!pedido) {
-            res.status(404).send("Pedido no encontrado");
-        } else {
-            res.status(200).json({
-                ok: true,
-                pedido,
-            });
-        }
+        const pedidos = await Pedido.find();
+        res.status(200).json({
+            ok: true,
+            pedidos,
+        });
     } catch (error) {
         res.status(500).send(error);
     }
 };
+
+// const getPedidoById = async (req, res) => {
+//     try {
+//         const pedido = await Pedido.findById(req.params.id);
+//         if (!pedido) {
+//             res.status(404).send("Pedido no encontrado");
+//         } else {
+//             res.status(200).json({
+//                 ok: true,
+//                 pedido,
+//             });
+//         }
+//     } catch (error) {
+//         res.status(500).send(error);
+//     }
+// };
 
 // const createPedido = async (req, res) => {
 //     try {
@@ -115,8 +115,8 @@ const getPedidoById = async (req, res) => {
 
 
 module.exports = {
-    // getAllPedidos,
-    getPedidoById,
+    getAllPedidos,
+    // getPedidoById,
     // createPedido,
     // updatePedido,
     // deletePedido,
