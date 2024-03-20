@@ -1,30 +1,33 @@
 const mongoose = require('mongoose');
 
-const productSchema = new mongoose.Schema({
-    nombre: {
+const productoSchema = new mongoose.Schema({
+    nombreProducto: {
         type: String,
-        required: [true, 'El nombre del producto es requerido']
-    },
-    precio: {
-        type: Number,
-        required: [true, 'El precio del producto es requerido']
+        required: true
     },
     descripcion: {
-        type: String
-    },
-    categoria: {
         type: String,
-        required: [true, 'La categoría del producto es requerida']
+        required: true
+    },
+    precioVenta: {
+        type: mongoose.Schema.Types.Decimal128,
+        required: true
+    },
+    origen: {
+        type: String,
+        required: true
     },
     stock: {
         type: Number,
-        required: [true, 'La cantidad en stock es requerida']
+        required: true
     },
-    imagen: {
-        type: String
-    }
+    comentarios: [{
+        comentario: String,
+        fechaComment: {
+            type: Date,
+            default: Date.now
+        }
+    }]
 });
 
-const Product = mongoose.model('Product', productSchema);
-
-module.exports = Product;
+module.exports = mongoose.model('Producto', productoSchema);
