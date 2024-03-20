@@ -9,7 +9,7 @@ router.get('/', productController.getProducts);
 router.get('/:id', productController.getProductById);
 
 // Crear un nuevo producto
-router.post('/', productController.createProduct);
+// router.post('/', productController.createProduct);
 
 // // Actualizar un producto existente por su ID
 // router.patch('/:id', productController.updateProduct);
@@ -17,4 +17,4 @@ router.post('/', productController.createProduct);
 // // Eliminar un producto por su ID
 // router.delete('/:id', productController.deleteProduct);
 
-// module.exports = router;
+module.exports = router;
