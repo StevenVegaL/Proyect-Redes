@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const productoSchema = new Schema({
+    _id: Number,
     nombreProducto: {
         type: String,
         required: true
@@ -31,6 +32,6 @@ const productoSchema = new Schema({
             default: Date.now
         }
     }]
-}, { collection: 'productos' });
+}, { collection: 'Producto' });
 
 module.exports = model('Producto', productoSchema);
