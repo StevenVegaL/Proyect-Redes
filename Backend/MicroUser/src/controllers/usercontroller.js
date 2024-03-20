@@ -30,16 +30,19 @@ const getUsuarioById = async (req, res) => {
 };
 
     // Obtener un usuario por ID
-    // // Crear un nuevo usuario
-    // exports.createUsuario = async (req, res) => {
-    //     try {
-    //         const usuario = new Usuario(req.body);
-    //         await usuario.save();
-    //         res.status(201).json(usuario);
-    //     } catch (error) {
-    //         res.status(400).send(error);
-    //     }
-    // };
+    // Crear un nuevo usuario
+    exports.createUsuario = async (req, res) => {
+        try {
+            const usuario = new Usuario(req.body);
+            await usuario.save();
+            res.status(200).json({
+                ok: true,
+                usuarios,
+            });
+        } catch (error) {
+            res.status(400).send(error);
+        }
+    };
 
     // // Actualizar un usuario
     // exports.updateUsuario = async (req, res) => {
