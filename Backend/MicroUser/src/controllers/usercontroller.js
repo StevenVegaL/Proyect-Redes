@@ -29,53 +29,102 @@ const getUsuarioById = async (req, res) => {
     }
 };
 
-    // Obtener un usuario por ID
-    // Crear un nuevo usuario
+// Obtener un usuario por ID
+// Crear un nuevo usuario
 const createUsuario = async (req, res) => {
-        try {
-            const usuario = new Usuario(req.body);
-            await usuario.save();
-            res.status(200).json({
-                ok: true,
-                usuario,
-            });
-        } catch (error) {
-            res.status(400).send(error);
-        }
-    };
+    try {
+    // Buscar el  ultimo _id en la coleccion
+    // const usuarios = await Usuario.find();
+    // usuarios[-1].id
+    // _id =  usuarios[-1].id + 1
+        // req.body._id = 
+        const usuario = new Usuario(req.body);
+        console.log(usuario);
+        await usuario.save();
+        res.status(200).json({
+            ok: true,
+            usuario,
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            ok: false,
+            err,
+        });
+    }
+};
 
-    // // Actualizar un usuario
-    // exports.updateUsuario = async (req, res) => {
-    //     try {
-    //         const usuario = await Usuario.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    //         if (!usuario) {
-    //             res.status(404).send("Usuario no encontrado");
-    //         } else {
-    //             res.json(usuario);
-    //         }
-    //     } catch (error) {
-    //         res.status(400).send(error);
-    //     }
-    // };
+// const newHotel = async (req, res) => {
+//     try {
+//         let newHotel = new Hotel(req.body);
+//         await newHotel.save();
 
-    // // Eliminar un usuario
-    // exports.deleteUsuario = async (req, res) => {
-    //     try {
-    //         const usuario = await Usuario.findByIdAndDelete(req.params.id);
-    //         if (!usuario) {
-    //             res.status(404).send("Usuario no encontrado");
-    //         } else {
-    //             res.status(204).send();
-    //         }
-    //     } catch (error) {
-    //         res.status(500).send(error);
-    //     }
-    // };
+//         res.status(201).json({
+//             ok: true,
+//             message: "Hotel creado exitosamente",
+//             hotel: newHotel,
+//         });
+//     } catch (err) {
+//         console.log(err);
+//         res.status(500).json({
+//             ok: false,
+//             err,
+//         });
+//     }
+// };
+
+//------------------------------------------------
+
+// const newHotel = async (req, res) => {
+//     try {
+//       let newHotel = new Hotel(req.body);
+//       await newHotel.save();
+
+//       res.status(201).json({
+//         ok: true,
+//         message: "Hotel creado exitosamente",
+//         hotel: newHotel,
+//       });
+//     } catch (err) {
+//       console.log(err);
+//       res.status(500).json({
+//         ok: false,
+//         err,
+//       });
+//     }
+//   };
+// // Actualizar un usuario
+// exports.updateUsuario = async (req, res) => {
+//     try {
+//         const usuario = await Usuario.findByIdAndUpdate(req.params.id, req.body, { new: true });
+//         if (!usuario) {
+//             res.status(404).send("Usuario no encontrado");
+//         } else {
+//             res.json(usuario);
+//         }
+//     } catch (error) {
+//         res.status(400).send(error);
+//     }
+// };
+
+// // Eliminar un usuario
+// exports.deleteUsuario = async (req, res) => {
+//     try {
+//         const usuario = await Usuario.findByIdAndDelete(req.params.id);
+//         if (!usuario) {
+//             res.status(404).send("Usuario no encontrado");
+//         } else {
+//             res.status(204).send();
+//         }
+//     } catch (error) {
+//         res.status(500).send(error);
+//     }
+// };
 
 
 module.exports = {
     userget,
     getUsuarioById,
     createUsuario,
-    
+
 };
