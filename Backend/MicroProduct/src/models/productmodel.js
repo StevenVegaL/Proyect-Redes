@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const productoSchema = new mongoose.Schema({
+const productoSchema = new Schema({
     nombreProducto: {
         type: String,
         required: true
@@ -10,7 +10,7 @@ const productoSchema = new mongoose.Schema({
         required: true
     },
     precioVenta: {
-        type: mongoose.Schema.Types.Decimal128,
+        type: Schema.Types.Decimal128,
         required: true
     },
     origen: {
@@ -22,12 +22,15 @@ const productoSchema = new mongoose.Schema({
         required: true
     },
     comentarios: [{
-        comentario: String,
+        comentario: {
+            type: String,
+            required: true
+        },
         fechaComment: {
             type: Date,
             default: Date.now
         }
     }]
-});
+}, { collection: 'productos' });
 
-module.exports = mongoose.model('Producto', productoSchema);
+module.exports = model('Producto', productoSchema);

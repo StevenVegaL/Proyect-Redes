@@ -1,15 +1,15 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const detallePedidoSchema = new mongoose.Schema({
+const detallePedidoSchema = new Schema({
     proveedorId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Proveedor'
+        type: Schema.Types.ObjectId,
+        ref: 'Proveedor',
+        required: true
     },
     productoId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Producto'
+        type: Schema.Types.ObjectId,
+        ref: 'Producto',
+        required: true
     },
     productName: {
         type: String,
@@ -21,11 +21,11 @@ const detallePedidoSchema = new mongoose.Schema({
     }
 });
 
-const pedidoSchema = new mongoose.Schema({
+const pedidoSchema = new Schema({
     clienteId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Usuario'
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario',
+        required: true
     },
     fechaPedido: {
         type: Date,
@@ -40,18 +40,17 @@ const pedidoSchema = new mongoose.Schema({
         required: true
     },
     fechaEnvio: {
-        type: Date,
-        required: false
+        type: Date
     },
     estadoEnvio: {
         type: String,
         required: true
     },
     costePedido: {
-        type: mongoose.Schema.Types.Decimal128,
+        type: Schema.Types.Decimal128,
         required: true
     },
     detalles: [detallePedidoSchema]
-});
+}, { collection: 'pedidos' });
 
-module.exports = mongoose.model('Pedido', pedidoSchema);
+module.exports = model('Pedido', pedidoSchema);
