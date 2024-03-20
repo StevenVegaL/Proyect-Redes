@@ -6,7 +6,7 @@ const pedidosController = require('../controllers/pedidoscontroller');
 // router.get('/', pedidoscontroller.getAllPedidos);
 
 // // Obtener un pedido por su ID
-router.get('/:id', pedidoscontroller.getPedidoById);
+router.get('/:id', pedidosController.getPedidoById);
 
 // // Crear un nuevo pedido
 // router.post('/', pedidosController.createPedido);
