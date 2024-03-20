@@ -1,31 +1,31 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const { Schema, model } = require("mongoose");
 
-const userSchema = new mongoose.Schema({
+
+const userSchema = new Schema({
+    _id: Number,
     nombre: {
         type: String,
-        required: [true, 'El nombre del usuario es requerido']
+        required: true
     },
     email: {
         type: String,
-        required: [true, 'El correo electrónico es requerido'],
+        required: true,
         unique: true
     },
     password: {
         type: String,
-        required: [true, 'La contraseña es requerida']
+        required: true
     }
-});
+},
+    { collection: "usuario" }
+);
 
-// Encriptar la contraseña antes de guardar el usuario
-userSchema.pre('save', async function(next) {
-    if (!this.isModified('password')) return next();
-    this.password = await bcrypt.hash(this.password, 12);
-    next();
-});
 
-const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+
+
+module.exports = model("user", userSchema);
+
+//_-----------------------
 
 

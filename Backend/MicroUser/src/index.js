@@ -1,6 +1,7 @@
 const express = require('express');
-const { connectDB } = require('./src/db/config');
-const userRoute = require('./src/routes/userroute');
+const { connectDB } = require('./db/config');
+const morgan = require("morgan");
+const cors = require("cors");
 
 const app = express();
 
@@ -11,18 +12,21 @@ connectDB();
 app.use(express.json());
 
 // Rutas para los usuarios
-app.use('/api/users', userRoute);
+// app.use('/api/users', userRoute);
 
-// Manejador de errores genérico
-app.use((err, req, res, next) => {
-    res.status(500).json({
-        status: 'error',
-        message: err.message
-    });
-});
+const port = 3001;
+// const paths = {
+//   hotels: "/hotels",
+// };
 
-const PORT = process.env.PORT || 3002;
 
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
+
+app.use(express.json());
+app.use(morgan("dev"));
+app.use(cors());
+
+app.use('/api/users', require('./routes/userroute'));
+
+app.listen(port, () => {
+  console.log("Server listening on",port);
 });
