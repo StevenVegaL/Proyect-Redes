@@ -12,7 +12,7 @@ connectDB();
 app.use(express.json());
 
 
-const port = 3001;
+const port = 3002;
 
 
 app.use(express.json());
