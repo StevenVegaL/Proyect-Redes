@@ -1,22 +1,31 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
-const usuarioSchema = new mongoose.Schema({
-    nombre: String,
-    direccion: String,
-    telefono: Number,
-    email: String,
-    password: String,
-    userType: String,
+const userSchema = new mongoose.Schema({
+    nombre: {
+        type: String,
+        required: [true, 'El nombre del usuario es requerido']
+    },
+    email: {
+        type: String,
+        required: [true, 'El correo electrónico es requerido'],
+        unique: true
+    },
+    password: {
+        type: String,
+        required: [true, 'La contraseña es requerida']
+    }
 });
 
-// Aquí podrías incluir métodos de validación similares a validarUsuario()
-usuarioSchema.methods.validarUsuario = function () {
-    if (this.userType === 'cliente' && (!this.direccion || !this.telefono)) {
-        throw new Error("La dirección y el teléfono son requeridos para los usuarios tipo 'cliente'");
-    }
-};
+// Encriptar la contraseña antes de guardar el usuario
+userSchema.pre('save', async function(next) {
+    if (!this.isModified('password')) return next();
+    this.password = await bcrypt.hash(this.password, 12);
+    next();
+});
 
-const Usuario = mongoose.model('Usuario', usuarioSchema);
+const User = mongoose.model('User', userSchema);
 
-module.exports = Usuario;
+module.exports = User;
+
 

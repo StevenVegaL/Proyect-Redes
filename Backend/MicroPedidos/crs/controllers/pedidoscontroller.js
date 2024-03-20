@@ -1,6 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const Pedidos = require('../models/pedidosmodels'); // Ajusta la ruta al archivo de modelo
+const Pedido = require('../models/pedidosmodels');
+const { validationResult } = require('express-validator');
+
+exports.createPedido = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        const newPedido = await Pedido.create(req.body);
+        res.status(201).json({
+            status: 'success',
+            data: {
+                pedido: newPedido
+            }
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            message: err.message
+        });
+    }
+};
+
+
 
 // Middleware para obtener un pedido por ID
 async function getPedido(req, res, next) {

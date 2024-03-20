@@ -1,85 +1,106 @@
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
-const Producto = require('../models/productmodel'); // Asegúrate de que la ruta al modelo sea correcta
+const Product = require('../models/productmodel');
 
-mongoose.connect('tu_cadena_de_conexion_a_mongodb', { useNewUrlParser: true, useUnifiedTopology: true });
-
-// Obtener todos los productos
-router.get('/', async (req, res) => {
+exports.createProduct = async (req, res) => {
     try {
-        const productos = await Producto.find();
-        res.json(productos);
-    } catch (error) {
-        res.status(500).send(error);
+        const newProduct = await Product.create(req.body);
+        res.status(201).json({
+            status: 'success',
+            data: {
+                product: newProduct
+            }
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            message: err.message
+        });
     }
-});
+};
 
-// Obtener un producto por ID
-router.get('/:id', async (req, res) => {
+exports.getProducts = async (req, res) => {
     try {
-        const producto = await Producto.findById(req.params.id);
-        if (!producto) {
-            res.status(404).send('Producto no encontrado');
-        } else {
-            res.json(producto);
+        const products = await Product.find();
+        res.status(200).json({
+            status: 'success',
+            results: products.length,
+            data: {
+                products
+            }
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err.message
+        });
+    }
+};
+
+exports.getProduct = async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+            return res.status(404).json({
+                status: 'fail',
+                message: 'Product not found'
+            });
         }
-    } catch (error) {
-        res.status(500).send(error);
+        res.status(200).json({
+            status: 'success',
+            data: {
+                product
+            }
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: 'Product not found'
+        });
     }
-});
+};
 
-// Crear un nuevo producto
-router.post('/', async (req, res) => {
+exports.updateProduct = async (req, res) => {
     try {
-        const newProducto = new Producto(req.body);
-        const savedProducto = await newProducto.save();
-        res.status(201).json(savedProducto);
-    } catch (error) {
-        res.status(500).send(error);
+        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        });
+        if (!updatedProduct) {
+            return res.status(404).json({
+                status: 'fail',
+                message: 'Product not found'
+            });
+        }
+        res.status(200).json({
+            status: 'success',
+            data: {
+                product: updatedProduct
+            }
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err.message
+        });
     }
-});
+};
 
-// Actualizar un producto
-router.put('/:id', async (req, res) => {
+exports.deleteProduct = async (req, res) => {
     try {
-        const updatedProducto = await Producto.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.json(updatedProducto);
-    } catch (error) {
-        res.status(500).send(error);
+        const product = await Product.findByIdAndDelete(req.params.id);
+        if (!product) {
+            return res.status(404).json({
+                status: 'fail',
+                message: 'Product not found'
+            });
+        }
+        res.status(204).json({
+            status: 'success',
+            data: null
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err.message
+        });
     }
-});
-
-// Eliminar un producto
-router.delete('/:id', async (req, res) => {
-    try {
-        await Producto.findByIdAndDelete(req.params.id);
-        res.status(204).send('Producto eliminado');
-    } catch (error) {
-        res.status(500).send(error);
-    }
-});
-
-// Encontrar productos con stock bajo
-router.get('/stock-bajo', async (req, res) => {
-    try {
-        const umbral = req.query.umbral || 130; // Valor por defecto
-        const productos = await Producto.find({ stock: { $lt: umbral } });
-        res.json(productos);
-    } catch (error) {
-        res.status(500).send(error);
-    }
-});
-
-// Obtener productos con comentarios recientes
-router.get('/comentarios-recientes', async (req, res) => {
-    try {
-        const fecha = new Date(req.query.fecha);
-        const productos = await Producto.find({ "comentarios.fechaComment": { $gt: fecha } });
-        res.json(productos);
-    } catch (error) {
-        res.status(500).send(error);
-    }
-});
-
-module.exports = router;
+};

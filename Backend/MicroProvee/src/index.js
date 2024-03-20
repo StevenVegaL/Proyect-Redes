@@ -1,25 +1,28 @@
-
-
-//---------------------------------------
-
 const express = require('express');
-const mongoose = require('mongoose');
+const { connectDB } = require('./src/db/config');
 const proveeRoute = require('./src/routes/proveeroute');
 
 const app = express();
-const port = 3000;
 
-// Conexión a la base de datos
-mongoose.connect('mongodb://localhost:27017/sabortostado', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// Conectar a la base de datos
+connectDB();
 
+// Middleware para parsear el cuerpo de las solicitudes
 app.use(express.json());
 
-// Uso de las rutas para proveedores
+// Rutas para los proveedores
 app.use('/api/proveedores', proveeRoute);
 
-app.listen(port, () => {
-  console.log(`Microservicio de proveedores corriendo en el puerto ${port}`);
+// Manejador de errores genérico
+app.use((err, req, res, next) => {
+    res.status(500).json({
+        status: 'error',
+        message: err.message
+    });
+});
+
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

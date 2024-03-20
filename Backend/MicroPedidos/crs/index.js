@@ -1,27 +1,29 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const pedidosRoutes = require('./routes/pedidosroute'); // Asegúrate de ajustar la ruta según tu estructura de archivos
+const pedidosRoute = require('./src/routes/pedidosroute');
+const { connectDB } = require('./src/db/config');
 
 const app = express();
-const port = process.env.PORT || 3000;
 
-// Conexión a MongoDB
-mongoose.connect('tu_uri_de_mongodb', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Conectado a MongoDB'))
-  .catch(err => console.error('Error conectando a MongoDB:', err));
+// Conectar a la base de datos
+connectDB();
 
-// Middleware para parsear JSON
+// Middleware para parsear el cuerpo de las solicitudes
 app.use(express.json());
 
-// Rutas
-app.use('/api/pedidos', pedidosRoutes);
+// Rutas para los pedidos
+app.use('/api/pedidos', pedidosRoute);
 
-// Manejador de errores básico
+// Manejador de errores genérico
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('¡Algo salió mal!');
+    res.status(500).json({
+        status: 'error',
+        message: err.message
+    });
 });
 
-app.listen(port, () => {
-  console.log(`Servidor escuchando en http://localhost:${port}`);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

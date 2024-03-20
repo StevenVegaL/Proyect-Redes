@@ -1,20 +1,30 @@
 const mongoose = require('mongoose');
 
-const comentarioSchema = new mongoose.Schema({
-  comment_id: Number,
-  comentario: String,
-  fechaComment: Date
-}, { _id: false });
-
-const productoSchema = new mongoose.Schema({
-  _id: Number,
-  nombreProducto: String,
-  descripcion: String,
-  precioVenta: Number,
-  origen: String,
-  stock: Number,
-  proveedorId: Number,
-  comentarios: [comentarioSchema]
+const productSchema = new mongoose.Schema({
+    nombre: {
+        type: String,
+        required: [true, 'El nombre del producto es requerido']
+    },
+    precio: {
+        type: Number,
+        required: [true, 'El precio del producto es requerido']
+    },
+    descripcion: {
+        type: String
+    },
+    categoria: {
+        type: String,
+        required: [true, 'La categoría del producto es requerida']
+    },
+    stock: {
+        type: Number,
+        required: [true, 'La cantidad en stock es requerida']
+    },
+    imagen: {
+        type: String
+    }
 });
 
-module.exports = mongoose.model('Producto', productoSchema);
+const Product = mongoose.model('Product', productSchema);
+
+module.exports = Product;
