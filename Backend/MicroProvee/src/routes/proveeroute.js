@@ -1,8 +1,13 @@
 const express = require('express');
-const proveeController = require('./proveecontroller'); // Asegúrate de que la ruta sea correcta
 const router = express.Router();
+const proveeController = require('../controllers/proveecontroller');
 
-router.use('/proveedores', proveeController);
+router.get('/', proveeController.getAllProveedores);
+router.get('/:id', proveeController.getProveedorById);
+router.post('/', proveeController.createProveedor);
+router.put('/:id', proveeController.updateProveedor);
+router.delete('/:id', proveeController.deleteProveedor);
 
 module.exports = router;
+
 
