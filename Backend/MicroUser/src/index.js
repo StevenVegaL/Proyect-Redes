@@ -5,21 +5,11 @@ const cors = require("cors");
 
 const app = express();
 
-// Conectar a la base de datos
 connectDB();
 
-// Middleware para parsear el cuerpo de las solicitudes
 app.use(express.json());
 
-// Rutas para los usuarios
-// app.use('/api/users', userRoute);
-
 const port = 3001;
-// const paths = {
-//   hotels: "/hotels",
-// };
-
-
 
 app.use(express.json());
 app.use(morgan("dev"));
