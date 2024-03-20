@@ -31,13 +31,13 @@ const getUsuarioById = async (req, res) => {
 
     // Obtener un usuario por ID
     // Crear un nuevo usuario
-    exports.createUsuario = async (req, res) => {
+const createUsuario = async (req, res) => {
         try {
             const usuario = new Usuario(req.body);
             await usuario.save();
             res.status(200).json({
                 ok: true,
-                usuarios,
+                usuario,
             });
         } catch (error) {
             res.status(400).send(error);
@@ -76,5 +76,6 @@ const getUsuarioById = async (req, res) => {
 module.exports = {
     userget,
     getUsuarioById,
+    createUsuario,
     
 };

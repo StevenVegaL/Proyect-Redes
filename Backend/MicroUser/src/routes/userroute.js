@@ -8,7 +8,7 @@ router.get('/', userController.userget);
 router.get('/:id', userController.getUsuarioById);
 
 // // Crear un nuevo usuario
-// router.post('/', userController.createUsuario);
+router.post('/', userController.createUsuario);
 
 // // Actualizar un usuario existente por su ID
 // router.put('/:id', userController.updateUsuario);
