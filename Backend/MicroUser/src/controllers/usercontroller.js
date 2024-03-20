@@ -33,7 +33,7 @@ const getUsuarioById = async (req, res) => {
 // Crear un nuevo usuario
 const createUsuario = async (req, res) => {
     try {
-    // Buscar el  ultimo _id en la coleccion
+    // Buscar el  ultimo _id en la coleccion.
     // const usuarios = await Usuario.find();
     // usuarios[-1].id
     // _id =  usuarios[-1].id + 1
