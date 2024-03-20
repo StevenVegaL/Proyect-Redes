@@ -1,19 +1,32 @@
 const express = require('express');
 const router = express.Router();
-// Asume que pedidosController es un objeto exportado que contiene los métodos del controlador.
 const pedidosController = require('../controllers/pedidoscontroller');
 
-// Rutas para operaciones CRUD básicas
+// Obtener todos los pedidos
 router.get('/', pedidosController.getAllPedidos);
+
+// Obtener un pedido por su ID
 router.get('/:id', pedidosController.getPedidoById);
+
+// Crear un nuevo pedido
 router.post('/', pedidosController.createPedido);
+
+// Actualizar un pedido existente por su ID
 router.put('/:id', pedidosController.updatePedido);
+
+// Eliminar un pedido por su ID
 router.delete('/:id', pedidosController.deletePedido);
 
-// Rutas para consultas específicas
+// Obtener pedidos por estado de envío
 router.get('/estado-envio/:estado', pedidosController.getPedidosPorEstadoEnvio);
+
+// Obtener un pedido por número de factura
 router.get('/numero-factura/:numeroFactura', pedidosController.getPedidoPorNumeroFactura);
+
+// Obtener ventas en un día específico
 router.get('/ventas-en-dia', pedidosController.getVentasEnDia);
-router.get('/pedidos-por-cliente/:clienteId', pedidosController.getPedidosPorCliente);
+
+// Obtener pedidos por ID de cliente
+router.get('/cliente/:clienteId', pedidosController.getPedidosPorCliente);
 
 module.exports = router;
