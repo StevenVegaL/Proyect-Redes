@@ -2,7 +2,7 @@ const Pedido = require('../models/pedidosmodels'); // Asegúrate de que la ruta 
 
 const getAllPedidos = async (req, res) => {
     try {
-        const pedidos = await Pedidos.find();
+        const pedidos = await Pedido.find();
         res.status(200).json({
             ok: true,
             pedidos,

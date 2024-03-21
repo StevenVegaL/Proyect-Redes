@@ -56,7 +56,7 @@ const createProduct = async (req, res) => {
         // Guardar el nuevo producto
         await newProduct.save();
 
-        res.status(201).json({
+        res.status(200).json({
             ok: true,
             product: newProduct
         });
