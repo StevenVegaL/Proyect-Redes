@@ -15,6 +15,6 @@ router.post('/', productController.createProduct);
 // router.patch('/:id', productController.updateProduct);
 
 // // Eliminar un producto por su ID
-// router.delete('/:id', productController.deleteProduct);
+router.delete('/:id', productController.deleteProduct);
 
 module.exports = router;
