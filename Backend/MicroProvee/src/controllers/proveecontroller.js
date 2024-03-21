@@ -59,86 +59,72 @@ const Proveedor = require('../models/proveemodel');
 
 
 
+
 // const updateProveedor = async (req, res) => {
+//     // Convertir el ID de string a número
+//     const id = parseInt(req.params.id);
+    
 //     try {
-//         const updatedProveedor = await Proveedor.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+//         const updatedProveedor = await Proveedor.findOneAndUpdate({ _id: id }, req.body, { new: true, runValidators: true });
+        
 //         if (!updatedProveedor) {
-//             res.status(404).json({
+//             return res.status(404).json({
 //                 ok: false,
-//                 message: 'Proveedor not found'
-//             });
-//         } else {
-//             res.status(200).json({
-//                 ok: true,
-//                 proveedor: updatedProveedor
+//                 message: 'Proveedor no encontrado'
 //             });
 //         }
+
+//         res.status(200).json({
+//             ok: true,
+//             proveedor: updatedProveedor
+//         });
 //     } catch (err) {
-//         res.status(404).json({
+//         res.status(500).json({
 //             ok: false,
 //             error: err.message
 //         });
 //     }
 // };
-
-
-
-
-const updateProveedor = async (req, res) => {
-    // Convertir el ID de string a número
-    const id = parseInt(req.params.id);
-    
-    try {
-        const updatedProveedor = await Proveedor.findOneAndUpdate({ _id: id }, req.body, { new: true, runValidators: true });
-        
-        if (!updatedProveedor) {
-            return res.status(404).json({
-                ok: false,
-                message: 'Proveedor no encontrado'
-            });
-        }
-
-        res.status(200).json({
-            ok: true,
-            proveedor: updatedProveedor
-        });
-    } catch (err) {
-        res.status(500).json({
-            ok: false,
-            error: err.message
-        });
-    }
-};
-
-
-
-
-
 
 
 
 
 
 // const deleteProveedor = async (req, res) => {
+//     const id = parseInt(req.params.id);
+
+
 //     try {
-//         await Proveedor.findByIdAndDelete(req.params.id);
-//         res.status(204).json({
+//         const deletedProveedor = await Proveedor.findOneAndDelete({ _id: id });
+
+//         if (!deletedProveedor) {
+//             return res.status(404).json({
+//                 ok: false,
+//                 message: 'Proveedor no encontrado y no pudo ser eliminado'
+//             });
+//         }
+
+//         res.status(200).json({
 //             ok: true,
-//             message: 'Proveedor successfully deleted'
+//             message: 'Proveedor eliminado exitosamente',
+//             proveedor: deletedProveedor
 //         });
 //     } catch (err) {
-//         res.status(404).json({
+//         res.status(500).json({
 //             ok: false,
 //             error: err.message
 //         });
 //     }
 // };
 
+
+
+
 module.exports = {
     // createProveedor,
     // getProveedores,
     // getProveedorById,
-    updateProveedor,
+    // updateProveedor,
     // deleteProveedor,
 };
 
