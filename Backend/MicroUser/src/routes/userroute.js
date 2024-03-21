@@ -9,10 +9,10 @@ router.get('/', userController.getUsers);
 router.get('/:id', userController.getUsuarioById);
 
 // // Crear un nuevo usuario
-// router.post('/', userController.createUsuario);
+router.post('/', userController.createUsuario);
 
-// // Actualizar un usuario existente por su ID
-// router.put('/:id', userController.updateUsuario);
+// Actualizar un usuario existente por su ID
+router.patch('/:id', userController.updateUsuario);
 
 // // Eliminar un usuario por su ID
 // router.delete('/:id', userController.deleteUsuario);
