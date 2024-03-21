@@ -1,30 +1,31 @@
 const { Schema, model } = require('mongoose');
 
 const detallePedidoSchema = new Schema({
-    proveedorId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Proveedor',
+    proveedor_id: {
+        type: Number, // Cambiado de ObjectId a Number
         required: true
     },
-    productoId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Producto',
+    producto_id: {
+        type: Number, // Cambiado de ObjectId a Number
         required: true
     },
-    productName: {
+    nombreProducto: {
         type: String,
         required: true
     },
     cantidad: {
         type: Number,
         required: true
+    },
+    costePedido: {
+        type: Number, // Añadido, asegúrate de que este campo sea correcto
+        required: true
     }
 });
 
 const pedidoSchema = new Schema({
-    clienteId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Usuario',
+    cliente_id: {
+        type: Number, // Cambiado de ObjectId a Number
         required: true
     },
     fechaPedido: {
@@ -46,11 +47,8 @@ const pedidoSchema = new Schema({
         type: String,
         required: true
     },
-    costePedido: {
-        type: Schema.Types.Decimal128,
-        required: true
-    },
-    detalles: [detallePedidoSchema]
+    detalles: [detallePedidoSchema] // Cambiado el nombre del campo a 'detalles'
 }, { collection: 'pedidos' });
 
 module.exports = model('Pedido', pedidoSchema);
+
