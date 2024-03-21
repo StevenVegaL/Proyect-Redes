@@ -1,108 +1,101 @@
-
 const Proveedor = require('../models/proveemodel');
 
-exports.createProveedor = async (req, res) => {
+const createProveedor = async (req, res) => {
     try {
         const newProveedor = await Proveedor.create(req.body);
         res.status(201).json({
-            status: 'success',
-            data: {
-                proveedor: newProveedor
-            }
+            ok: true,
+            proveedor: newProveedor
         });
     } catch (err) {
         res.status(400).json({
-            status: 'fail',
-            message: err.message
+            ok: false,
+            error: err.message
         });
     }
 };
 
-exports.getProveedores = async (req, res) => {
+const getProveedores = async (req, res) => {
     try {
         const proveedores = await Proveedor.find();
         res.status(200).json({
-            status: 'success',
-            results: proveedores.length,
-            data: {
-                proveedores
-            }
+            ok: true,
+            count: proveedores.length,
+            proveedores
         });
     } catch (err) {
         res.status(404).json({
-            status: 'fail',
-            message: err.message
+            ok: false,
+            error: err.message
         });
     }
 };
 
-exports.getProveedor = async (req, res) => {
+const getProveedor = async (req, res) => {
     try {
         const proveedor = await Proveedor.findById(req.params.id);
         if (!proveedor) {
-            return res.status(404).json({
-                status: 'fail',
+            res.status(404).json({
+                ok: false,
                 message: 'Proveedor not found'
             });
-        }
-        res.status(200).json({
-            status: 'success',
-            data: {
+        } else {
+            res.status(200).json({
+                ok: true,
                 proveedor
-            }
-        });
+            });
+        }
     } catch (err) {
         res.status(404).json({
-            status: 'fail',
-            message: 'Proveedor not found'
+            ok: false,
+            error: err.message
         });
     }
 };
 
-exports.updateProveedor = async (req, res) => {
+const updateProveedor = async (req, res) => {
     try {
-        const updatedProveedor = await Proveedor.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
-        });
+        const updatedProveedor = await Proveedor.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!updatedProveedor) {
-            return res.status(404).json({
-                status: 'fail',
+            res.status(404).json({
+                ok: false,
                 message: 'Proveedor not found'
             });
-        }
-        res.status(200).json({
-            status: 'success',
-            data: {
+        } else {
+            res.status(200).json({
+                ok: true,
                 proveedor: updatedProveedor
-            }
-        });
+            });
+        }
     } catch (err) {
         res.status(404).json({
-            status: 'fail',
-            message: err.message
+            ok: false,
+            error: err.message
         });
     }
 };
 
-exports.deleteProveedor = async (req, res) => {
+const deleteProveedor = async (req, res) => {
     try {
-        const proveedor = await Proveedor.findByIdAndDelete(req.params.id);
-        if (!proveedor) {
-            return res.status(404).json({
-                status: 'fail',
-                message: 'Proveedor not found'
-            });
-        }
+        await Proveedor.findByIdAndDelete(req.params.id);
         res.status(204).json({
-            status: 'success',
-            data: null
+            ok: true,
+            message: 'Proveedor successfully deleted'
         });
     } catch (err) {
         res.status(404).json({
-            status: 'fail',
-            message: err.message
+            ok: false,
+            error: err.message
         });
     }
 };
+
+module.exports = {
+    createProveedor,
+    getProveedores,
+    getProveedor,
+    updateProveedor,
+    deleteProveedor,
+};
+
 

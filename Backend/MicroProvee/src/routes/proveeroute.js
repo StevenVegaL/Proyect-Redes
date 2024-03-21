@@ -9,3 +9,4 @@ router.patch('/:id', proveeController.updateProveedor);
 router.delete('/:id', proveeController.deleteProveedor);
 
 module.exports = router;
+
