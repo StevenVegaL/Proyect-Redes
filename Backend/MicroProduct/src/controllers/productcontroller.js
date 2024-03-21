@@ -41,7 +41,21 @@ const getProductById = async (req, res) => {
 
 const createProduct = async (req, res) => {
     try {
-        const newProduct = await Product.create(req.body);
+        // Buscar el último producto
+        const lastProduct = await Product.findOne().sort({ _id: -1 });
+
+        // Obtener el siguiente ID
+        const nextId = lastProduct ? lastProduct._id + 1 : 1;
+
+        // Crear un nuevo producto con el siguiente ID
+        const newProduct = new Product({
+            _id: nextId,
+            ...req.body
+        });
+
+        // Guardar el nuevo producto
+        await newProduct.save();
+
         res.status(201).json({
             ok: true,
             product: newProduct
@@ -53,6 +67,7 @@ const createProduct = async (req, res) => {
         });
     }
 };
+
 
 const updateProduct = async (req, res) => {
     try {

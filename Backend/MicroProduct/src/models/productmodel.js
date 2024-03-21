@@ -11,7 +11,7 @@ const productoSchema = new Schema({
         required: true
     },
     precioVenta: {
-        type: Schema.Types.Decimal128,
+        type: Number,
         required: true
     },
     origen: {
@@ -22,7 +22,15 @@ const productoSchema = new Schema({
         type: Number,
         required: true
     },
+    proveedorId: {
+        type: Number,
+        required: true
+    },
     comentarios: [{
+        comment_id: {
+            type: Number,
+            required: true
+        },
         comentario: {
             type: String,
             required: true
