@@ -1,11 +1,18 @@
 const { Schema, model } = require("mongoose");
 
-
 const userSchema = new Schema({
     _id: Number,
     nombre: {
         type: String,
         required: true
+    },
+    direccion: {
+        type: String,
+        required: function() { return this.userType === 'cliente'; } // Condición para requerir dirección
+    },
+    telefono: {
+        type: Number,
+        required: function() { return this.userType === 'cliente'; } // Condición para requerir teléfono
     },
     email: {
         type: String,
@@ -15,17 +22,28 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    userType: {
+        type: String,
+        enum: ['administrador', 'cliente'],
+        required: true
     }
 },
-    { collection: "usuario" }
-);
+{ collection: "usuario" });
 
-
-
-
+// Middleware pre-save para validaciones adicionales si es necesario
+userSchema.pre('save', function(next) {
+    // Aquí puedes añadir cualquier otra lógica de validación que necesites
+    // Por ejemplo, asegurar que dirección y teléfono están presentes si userType es 'cliente'
+    if (this.userType === 'cliente' && (!this.direccion || !this.telefono)) {
+        next(new Error('Direccion y telefono son requeridos para el userType cliente.'));
+    } else {
+        next();
+    }
+});
 
 module.exports = model("user", userSchema);
 
-//_-----------------------
+
 
 

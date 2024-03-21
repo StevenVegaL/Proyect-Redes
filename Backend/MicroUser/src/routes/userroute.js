@@ -3,9 +3,10 @@ const router = express.Router();
 const userController = require('../controllers/usercontroller');
 
 // Obtener todos los usuarios
-router.get('/', userController.userget);
-//Obtener un usuario por su ID
-router.get('/:id', userController.getUsuarioById);
+// router.get('/', userController.userget);
+
+// //Obtener un usuario por su ID
+// router.get('/:id', userController.getUsuarioById);
 
 // // Crear un nuevo usuario
 router.post('/', userController.createUsuario);
