@@ -28,7 +28,7 @@ const proveedorSchema = new Schema({
   }]
 },
 { 
-  collection: "Proveedor" // Asegúrate de que el nombre de la colección sea el correcto
+  collection: "Proveedor" 
 });
 
 module.exports = model("Proveedor", proveedorSchema);
