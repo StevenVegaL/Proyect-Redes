@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const proveeController = require('../controllers/proveecontroller');
 
-router.post('/', proveeController.createProveedor);
+// router.post('/', proveeController.createProveedor);
 router.get('/', proveeController.getProveedores);
-router.get('/:id', proveeController.getProveedor);
-router.patch('/:id', proveeController.updateProveedor);
-router.delete('/:id', proveeController.deleteProveedor);
+// router.get('/:id', proveeController.getProveedor);
+// router.patch('/:id', proveeController.updateProveedor);
+// router.delete('/:id', proveeController.deleteProveedor);
 
 module.exports = router;
 

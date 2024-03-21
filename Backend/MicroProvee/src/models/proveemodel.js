@@ -1,10 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const proveedorSchema = new Schema({
-  _id: {
-    type: Number,
-    required: true
-  },
+  _id: Number,
   nombreEmpresa: {
     type: String,
     required: true
@@ -17,7 +14,7 @@ const proveedorSchema = new Schema({
     type: Number,
     required: true
   },
-  emailProveedor: {
+  emailProv: {
     type: String,
     required: true
   },
