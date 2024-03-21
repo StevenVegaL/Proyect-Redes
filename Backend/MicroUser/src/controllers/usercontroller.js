@@ -1,70 +1,86 @@
 const Usuario = require('../models/usermodel'); // Asumiendo que usermodel.js exporta una clase o modelo de Mongoose
 
 // Obtener todos los usuarios
-// const userget = async (req, res) => {
-//     try {
-//         const usuarios = await Usuario.find();
-//         res.status(200).json({
-//             ok: true,
-//             usuarios,
-//         });
-//     } catch (error) {
-//         res.status(500).send(error);
-//     }
-// };
+const getUsers = async (req, res) => {
+    try {
+        const usuarios = await Usuario.find();
+        res.status(200).json({
+            ok: true,
+            count: usuarios.length,
+            usuarios
+        });
+    } catch (err) {
+        res.status(404).json({
+            ok: false,
+            error: err.message
+        });
+    }
+};
 
 
-// Obtener un usuario por ID
-// const getUsuarioById = async (req, res) => {
-//     try {
-//         const usuario = await Usuario.findById(req.params.id);
-//         if (!usuario) {
-//             res.status(404).send("Usuario no encontrado");
-//         } else {
-//             res.status(200).json({
-//                 ok: true,
-//                 usuario,
-//             });
-//         }
-//     } catch (error) {
-//         res.status(500).send(error);
-//     }
-// };
+
+
+const getUsuarioById = async (req, res) => {
+    // Convertir el ID de string a número
+    const id = parseInt(req.params.id);
+    try {
+        // Usar findOne en lugar de findById
+        const usuario = await Usuario.findOne({ _id: id });
+        
+        if (!usuario) {
+            return res.status(404).json({
+                ok: false,
+                error: 'Usuario no encontrado'
+            });
+        }
+
+        res.status(200).json({
+            ok: true,
+            usuario
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            error: error.message
+        });
+    }
+};
+
 
 
 
 
 // Crear un nuevo usuario
 
-const createUsuario = async (req, res) => {
-    try {
-        // Buscar el último usuario
-        const lastUsuario = await Usuario.findOne().sort({ _id: -1 });
+// const createUsuario = async (req, res) => {
+//     try {
+//         // Buscar el último usuario
+//         const lastUsuario = await Usuario.findOne().sort({ _id: -1 });
 
-        // Obtener el siguiente ID
-        const nextId = lastUsuario ? lastUsuario._id + 1 : 1;
+//         // Obtener el siguiente ID
+//         const nextId = lastUsuario ? lastUsuario._id + 1 : 1;
 
-        // Crear un nuevo usuario con el siguiente ID
-        const newUsuario = new Usuario({
-            _id: nextId,
-            ...req.body
-        });
+//         // Crear un nuevo usuario con el siguiente ID
+//         const newUsuario = new Usuario({
+//             _id: nextId,
+//             ...req.body
+//         });
 
-        // Guardar el nuevo usuario
-        await newUsuario.save();
+//         // Guardar el nuevo usuario
+//         await newUsuario.save();
 
-        res.status(201).json({
-            ok: true,
-            usuario: newUsuario
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            ok: false,
-            error: err.message
-        });
-    }
-};
+//         res.status(201).json({
+//             ok: true,
+//             usuario: newUsuario
+//         });
+//     } catch (err) {
+//         console.log(err);
+//         res.status(500).json({
+//             ok: false,
+//             error: err.message
+//         });
+//     }
+// };
 
 
 
@@ -106,8 +122,8 @@ const createUsuario = async (req, res) => {
 
 
 module.exports = {
-    // userget,
-    // getUsuarioById,
-    createUsuario,
+    getUsers,
+    getUsuarioById
+    // createUsuario,
 
 };
