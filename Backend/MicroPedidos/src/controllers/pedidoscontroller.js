@@ -1,5 +1,6 @@
 const Pedido = require('../models/pedidosmodels'); // Asegúrate de que la ruta al modelo es correcta
 
+// Obtener todos los pedidos
 const getAllPedidos = async (req, res) => {
     try {
         const pedidos = await Pedido.find();
@@ -13,7 +14,7 @@ const getAllPedidos = async (req, res) => {
 };
 
 
-
+// // Obtener un pedido por su ID
 const getPedidoById = async (req, res) => {
     const id = parseInt(req.params.id);
 
@@ -43,7 +44,7 @@ const getPedidoById = async (req, res) => {
 
 
 
-
+// // Crear un nuevo pedido
 const createPedido = async (req, res) => {
     try {
         // Buscar el último pedido
@@ -75,7 +76,7 @@ const createPedido = async (req, res) => {
 
 
 
-
+// // Actualizar un pedido existente por su ID
 const updatePedido = async (req, res) => {
     const id = parseInt(req.params.id);
     try {
@@ -100,6 +101,7 @@ const updatePedido = async (req, res) => {
 };
 
 
+// // Eliminar un pedido por su ID
 const deletePedido = async (req, res) => {
     const id = parseInt(req.params.id);
 
@@ -129,38 +131,61 @@ const deletePedido = async (req, res) => {
 
 
 
+// // Obtener pedidos por estado de envío
+const getPedidosPorEstadoEnvio = async (req, res) => {
+    try {
+        const pedidos = await Pedido.find({ estadoEnvio: req.params.estado });
+
+        if (pedidos.length === 0) {
+            return res.status(404).json({
+                ok: false,
+                mensaje: 'No se encontraron pedidos con ese estado de envío'
+            });
+        }
+
+        res.status(200).json({
+            ok: true,
+            pedidos
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            error: error.message
+        });
+    }
+};
 
 
-// const getPedidosPorEstadoEnvio = async (req, res) => {
-//     try {
-//         const pedidos = await Pedido.find({ estadoEnvio: req.params.estado });
-//         res.status(200).json({
-//             ok: true,
-//             pedidos,
-//         });
-//     } catch (error) {
-//         res.status(500).send(error);
-//     }
-// };
+
+ // Obtener un pedido por número de factura
+
+const getPedidoPorNumeroFactura = async (req, res) => {
+    // Convertir el número de factura de string a número
+    const numeroFactura = parseInt(req.params.numeroFactura);
+    try {
+        const pedido = await Pedido.findOne({ numeroFactura: numeroFactura });
+
+        if (!pedido) {
+            return res.status(404).json({
+                ok: false,
+                mensaje: 'Pedido con el número de factura proporcionado no encontrado'
+            });
+        }
+
+        res.status(200).json({
+            ok: true,
+            pedido
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            error: error.message
+        });
+    }
+};
 
 
 
-
-// const getPedidoPorNumeroFactura = async (req, res) => {
-//     try {
-//         const pedido = await Pedido.findOne({ numeroFactura: req.params.numeroFactura });
-//         if (!pedido) {
-//             res.status(404).send("Pedido con el número de factura proporcionado no encontrado");
-//         } else {
-//             res.status(200).json({
-//                 ok: true,
-//                 pedido,
-//             });
-//         }
-//     } catch (error) {
-//         res.status(500).send(error);
-//     }
-// };
 
 
 
@@ -183,8 +208,8 @@ module.exports = {
     createPedido,
     updatePedido,
     deletePedido,
-    // getPedidosPorEstadoEnvio,
-    // getPedidoPorNumeroFactura,
+    getPedidosPorEstadoEnvio,
+    getPedidoPorNumeroFactura,
     // getPedidosPorCliente,
     // getVentasEnDia,
 };
