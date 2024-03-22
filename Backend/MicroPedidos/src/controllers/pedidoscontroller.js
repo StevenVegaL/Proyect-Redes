@@ -76,41 +76,60 @@ const createPedido = async (req, res) => {
 
 
 
+const updatePedido = async (req, res) => {
+    const id = parseInt(req.params.id);
+    try {
+        const pedidoActualizado = await Pedido.findOneAndUpdate({ _id: id }, req.body, { new: true, runValidators: true });
+
+        if (!pedidoActualizado) {
+            return res.status(404).json({
+                ok: false,
+                error: 'Pedido no encontrado para actualizar'
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            pedido: pedidoActualizado
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            error: error.message
+        });
+    }
+};
+
+
+const deletePedido = async (req, res) => {
+    const id = parseInt(req.params.id);
+
+    try {
+        const pedidoEliminado = await Pedido.findOneAndDelete({ _id: id });
+
+        if (!pedidoEliminado) {
+            return res.status(404).json({
+                ok: false,
+                mensaje: 'Pedido no encontrado para eliminar'
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            mensaje: 'Pedido eliminado',
+            pedido: pedidoEliminado
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            error: error.message
+        });
+    }
+};
 
 
 
 
-// const updatePedido = async (req, res) => {
-//     try {
-//         const pedidoActualizado = await Pedido.findByIdAndUpdate(req.params.id, req.body, { new: true });
-//         if (!pedidoActualizado) {
-//             res.status(404).send("Pedido no encontrado para actualizar");
-//         } else {
-//             res.status(200).json({
-//                 ok: true,
-//                 pedido: pedidoActualizado,
-//             });
-//         }
-//     } catch (error) {
-//         res.status(400).send(error);
-//     }
-// };
 
-// const deletePedido = async (req, res) => {
-//     try {
-//         const pedidoEliminado = await Pedido.findByIdAndDelete(req.params.id);
-//         if (!pedidoEliminado) {
-//             res.status(404).send("Pedido no encontrado para eliminar");
-//         } else {
-//             res.status(200).json({
-//                 ok: true,
-//                 mensaje: "Pedido eliminado",
-//             });
-//         }
-//     } catch (error) {
-//         res.status(500).send(error);
-//     }
-// };
+
 
 // const getPedidosPorEstadoEnvio = async (req, res) => {
 //     try {
@@ -123,6 +142,9 @@ const createPedido = async (req, res) => {
 //         res.status(500).send(error);
 //     }
 // };
+
+
+
 
 // const getPedidoPorNumeroFactura = async (req, res) => {
 //     try {
@@ -140,6 +162,8 @@ const createPedido = async (req, res) => {
 //     }
 // };
 
+
+
 // const getPedidosPorCliente = async (req, res) => {
 //     try {
 //         const pedidos = await Pedido.find({ clienteId: req.params.clienteId });
@@ -156,9 +180,9 @@ const createPedido = async (req, res) => {
 module.exports = {
     getAllPedidos,
     getPedidoById,
-    // createPedido,
-    // updatePedido,
-    // deletePedido,
+    createPedido,
+    updatePedido,
+    deletePedido,
     // getPedidosPorEstadoEnvio,
     // getPedidoPorNumeroFactura,
     // getPedidosPorCliente,
@@ -166,4 +190,3 @@ module.exports = {
 };
 
 
-//hola}

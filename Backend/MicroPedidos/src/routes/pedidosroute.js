@@ -12,10 +12,10 @@ router.get('/:id', pedidosController.getPedidoById);
 router.post('/', pedidosController.createPedido);
 
 // // Actualizar un pedido existente por su ID
-// router.put('/:id', pedidosController.updatePedido);
+router.patch('/:id', pedidosController.updatePedido);
 
 // // Eliminar un pedido por su ID
-// router.delete('/:id', pedidosController.deletePedido);
+router.delete('/:id', pedidosController.deletePedido);
 
 // // Obtener pedidos por estado de envío
 // router.get('/estado-envio/:estado', pedidosController.getPedidosPorEstadoEnvio);
