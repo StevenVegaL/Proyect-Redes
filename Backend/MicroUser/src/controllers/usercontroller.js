@@ -117,19 +117,32 @@ const updateUsuario = async (req, res) => {
 
 
 
-// // Eliminar un usuario
-// exports.deleteUsuario = async (req, res) => {
-//     try {
-//         const usuario = await Usuario.findByIdAndDelete(req.params.id);
-//         if (!usuario) {
-//             res.status(404).send("Usuario no encontrado");
-//         } else {
-//             res.status(204).send();
-//         }
-//     } catch (error) {
-//         res.status(500).send(error);
-//     }
-// };
+
+const deleteUsuario = async (req, res) => {
+    const id = parseInt(req.params.id);
+    try {
+        const deletedUsuario = await Usuario.findOneAndDelete({ _id: id });
+
+        if (!deletedUsuario) {
+            return res.status(404).json({
+                ok: false,
+                message: 'Usuario no encontrado y no pudo ser eliminado'
+            });
+        }
+
+        res.status(200).json({
+            ok: true,
+            message: 'Usuario eliminado exitosamente',
+            usuario: deletedUsuario
+        });
+    } catch (err) {
+        res.status(500).json({
+            ok: false,
+            error: err.message
+        });
+    }
+};
+
 
 
 module.exports = {
@@ -137,6 +150,6 @@ module.exports = {
     getUsuarioById,
     createUsuario,
     updateUsuario,
-    // deleteUsuario
+    deleteUsuario
 
 };
