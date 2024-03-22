@@ -1,5 +1,41 @@
 const Usuario = require('../models/usermodel'); // Asumiendo que usermodel.js exporta una clase o modelo de Mongoose
 
+
+
+const loginUser = async (req, res) => {
+    try {
+        console.log(req.body)
+        const { email, password } = req.body;
+        const usuario = await Usuario.findOne({ email: email });
+
+        if (!usuario) {
+            return res.status(401).json({
+                error: "El usuario no existe"
+            });
+        }
+
+
+        const passMatch = usuario.password == password
+        if (!passMatch) {
+            return res.status(401).json({
+                error: "Contraseña incorrecta"
+
+            });
+        }
+
+        res.status(200).json({
+            ok: true,
+            usuario
+        });
+    } catch (err) {
+        res.status(404).json({
+            ok: false,
+            error: err.message
+        });
+    }
+};
+
+
 // Obtener todos los usuarios
 const getUsers = async (req, res) => {
     try {
@@ -26,7 +62,7 @@ const getUsuarioById = async (req, res) => {
     try {
         // Usar findOne en lugar de findById
         const usuario = await Usuario.findOne({ _id: id });
-        
+
         if (!usuario) {
             return res.status(404).json({
                 ok: false,
@@ -95,7 +131,7 @@ const updateUsuario = async (req, res) => {
     try {
         // Usar findOneAndUpdate con el ID numérico
         const updatedUsuario = await Usuario.findOneAndUpdate({ _id: id }, req.body, { new: true, runValidators: true });
-        
+
         if (!updatedUsuario) {
             return res.status(404).json({
                 ok: false,
@@ -146,6 +182,7 @@ const deleteUsuario = async (req, res) => {
 
 
 module.exports = {
+    loginUser,
     getUsers,
     getUsuarioById,
     createUsuario,

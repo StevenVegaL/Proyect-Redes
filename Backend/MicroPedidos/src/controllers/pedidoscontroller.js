@@ -188,32 +188,6 @@ const getPedidoPorNumeroFactura = async (req, res) => {
 
 
 
-const getPedidosPorCliente = async (req, res) => {
-    // Convertir el clienteId de string a número
-    const clienteId = parseInt(req.params.clienteId);
-    try {
-        const pedidos = await Pedido.find({ clienteId: clienteId });
-
-        if (pedidos.length === 0) {
-            return res.status(404).json({
-                ok: false,
-                mensaje: 'No se encontraron pedidos para el cliente con el ID proporcionado'
-            });
-        }
-
-        res.status(200).json({
-            ok: true,
-            pedidos
-        });
-    } catch (error) {
-        res.status(500).json({
-            ok: false,
-            error: error.message
-        });
-    }
-};
-
-
 
 
 
@@ -226,7 +200,7 @@ module.exports = {
     deletePedido,
     getPedidosPorEstadoEnvio,
     getPedidoPorNumeroFactura,
-    getPedidosPorCliente,
+    
    
 };
 
