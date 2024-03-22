@@ -1,30 +1,34 @@
 const { Schema, model } = require('mongoose');
 
-const detallePedidoSchema = new Schema({
-    proveedorId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Proveedor',
+const detalleSchema = new Schema({
+    proveedor_id: {
+        type: Number,
         required: true
     },
-    productoId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Producto',
+    producto_id: {
+        type: Number,
         required: true
     },
-    productName: {
+    nombreProducto: {
         type: String,
         required: true
     },
     cantidad: {
         type: Number,
-        required: true
+        required: true,
+        min: 1 // Asegura que la cantidad sea al menos 1
+    },
+    costePedido: {
+        type: Number,
+        required: true,
+        min: 1 // Asegura que el coste sea al menos 1
     }
-});
+}, { _id: false }); // _id: false si no queremos que Mongoose añada _id a los subdocumentos
 
 const pedidoSchema = new Schema({
-    clienteId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Usuario',
+    _id: Number,
+    cliente_id: {
+        type: Number,
         required: true
     },
     fechaPedido: {
@@ -40,17 +44,14 @@ const pedidoSchema = new Schema({
         required: true
     },
     fechaEnvio: {
-        type: Date
+        type: Date,
+        required: true
     },
     estadoEnvio: {
         type: String,
         required: true
     },
-    costePedido: {
-        type: Schema.Types.Decimal128,
-        required: true
-    },
-    detalles: [detallePedidoSchema]
-}, { collection: 'pedidos' });
+    detalle: [detalleSchema] // Aquí usamos el esquema de detalle que definimos arriba
+}, { collection: 'Pedidos' });
 
-module.exports = model('Pedido', pedidoSchema);
+module.exports = model('Pedidos', pedidoSchema);
