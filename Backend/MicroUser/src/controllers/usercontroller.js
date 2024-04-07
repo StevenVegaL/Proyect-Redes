@@ -36,6 +36,42 @@ const loginUser = async (req, res) => {
 };
 
 
+
+// Crear un nuevo usuario
+
+const createUsuario = async (req, res) => {
+    try {
+        // Buscar el último usuario
+        const lastUsuario = await Usuario.findOne().sort({ _id: -1 });
+
+        // Obtener el siguiente ID
+        const nextId = lastUsuario ? lastUsuario._id + 1 : 1;
+
+        // Crear un nuevo usuario con el siguiente ID
+        const newUsuario = new Usuario({
+            _id: nextId,
+            ...req.body
+        });
+
+        // Guardar el nuevo usuario
+        await newUsuario.save();
+
+        res.status(201).json({
+            ok: true,
+            usuario: newUsuario
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            ok: false,
+            error: err.message
+        });
+    }
+};
+
+
+
+
 // Obtener todos los usuarios
 const getUsers = async (req, res) => {
     try {
@@ -81,45 +117,6 @@ const getUsuarioById = async (req, res) => {
         });
     }
 };
-
-
-
-
-
-// Crear un nuevo usuario
-
-const createUsuario = async (req, res) => {
-    try {
-        // Buscar el último usuario
-        const lastUsuario = await Usuario.findOne().sort({ _id: -1 });
-
-        // Obtener el siguiente ID
-        const nextId = lastUsuario ? lastUsuario._id + 1 : 1;
-
-        // Crear un nuevo usuario con el siguiente ID
-        const newUsuario = new Usuario({
-            _id: nextId,
-            ...req.body
-        });
-
-        // Guardar el nuevo usuario
-        await newUsuario.save();
-
-        res.status(201).json({
-            ok: true,
-            usuario: newUsuario
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            ok: false,
-            error: err.message
-        });
-    }
-};
-
-
-
 
 
 
