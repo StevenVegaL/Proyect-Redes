@@ -14,38 +14,63 @@ const productClient = axios.create({
 
 
 
-
-
-// // Crear un nuevo pedido
 const createPedido = async (req, res) => {
+    const { userId, detalles } = req.body;
+
     try {
-        // Buscar el último pedido
-        const lastPedido = await Pedido.findOne().sort({ _id: -1 });
+        // Verificación de la existencia del usuario
+        const usuarioRespuesta = await userClient.get(`/${userId}`);
+        if (!usuarioRespuesta.data.ok) {
+            return res.status(404).json({
+                ok: false,
+                error: "Usuario no encontrado"
+            });
+        }
 
-        // Obtener el siguiente ID
-        const nextId = lastPedido ? lastPedido._id + 1 : 1;
+        // Verificación del stock de los productos
+        const erroresDeStock = [];
+        await Promise.all(detalles.map(async detalle => {
+            const productoRespuesta = await productClient.get(`/${detalle.productId}`);
+            if (!productoRespuesta.data.ok || productoRespuesta.data.producto.stock < detalle.cantidad) {
+                erroresDeStock.push(`Producto ${detalle.productId} no disponible o stock insuficiente`);
+            }
+        }));
 
-        // Crear un nuevo pedido con el siguiente ID
+        if (erroresDeStock.length > 0) {
+            return res.status(400).json({
+                ok: false,
+                error: erroresDeStock.join(", ")
+            });
+        }
+
+        // Creación del pedido si todas las verificaciones son correctas
         const nuevoPedido = new Pedido({
-            _id: nextId,
-            ...req.body
+            usuario: userId,
+            detalles,
+            estado: "Pendiente",
+            fechaCreacion: new Date()
         });
-
-        // Guardar el nuevo pedido
         await nuevoPedido.save();
+
+        // Actualización del stock después de crear el pedido
+        detalles.forEach(async detalle => {
+            await productClient.patch(`/${detalle.productId}`, {
+                $inc: { stock: -detalle.cantidad }
+            });
+        });
 
         res.status(201).json({
             ok: true,
             pedido: nuevoPedido
         });
+
     } catch (error) {
-        res.status(400).json({
+        res.status(500).json({
             ok: false,
             error: error.message
         });
     }
 };
-
 
 
 
@@ -95,61 +120,70 @@ const getPedidoById = async (req, res) => {
 
 
 
-
-
-
-
-// // Actualizar un pedido existente por su ID
 const updatePedido = async (req, res) => {
-    const id = parseInt(req.params.id);
-    try {
-        const pedidoActualizado = await Pedido.findOneAndUpdate({ _id: id }, req.body, { new: true, runValidators: true });
+    const { id } = req.params;
+    const { detalles } = req.body;
 
+    try {
+        const pedido = await Pedido.findById(id);
+        if (!pedido) {
+            return res.status(404).json({ok: false, error: 'Pedido no encontrado'});
+        }
+
+        // Verificar existencia y stock de productos antes de actualizar el pedido
+        await Promise.all(detalles.map(async detalle => {
+            const response = await productClient.get(`/${detalle.productId}`);
+            if (!response.data.ok || response.data.producto.stock < detalle.cantidad) {
+                throw new Error(`Producto ${detalle.productId} no disponible o stock insuficiente`);
+            }
+        }));
+
+        // Actualizar el pedido
+        const pedidoActualizado = await Pedido.findByIdAndUpdate(id, { detalles }, { new: true });
         if (!pedidoActualizado) {
-            return res.status(404).json({
-                ok: false,
-                error: 'Pedido no encontrado para actualizar'
-            });
+            return res.status(500).json({ok: false, error: 'Error al actualizar el pedido'});
         }
-        res.status(200).json({
-            ok: true,
-            pedido: pedidoActualizado
+
+        // Actualizar el stock de los productos
+        detalles.forEach(async detalle => {
+            await productClient.patch(`/${detalle.productId}`, {
+                stock: -(detalle.cantidad - (pedido.detalles.find(p => p.productId === detalle.productId)?.cantidad || 0))
+            });
         });
+
+        res.status(200).json({ok: true, pedido: pedidoActualizado});
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            error: error.message
-        });
+        res.status(500).json({ok: false, error: error.message});
     }
 };
 
 
 
-// // Eliminar un pedido por su ID
+
 const deletePedido = async (req, res) => {
-    const id = parseInt(req.params.id);
+    const { id } = req.params;
 
     try {
-        const pedidoEliminado = await Pedido.findOneAndDelete({ _id: id });
-
-        if (!pedidoEliminado) {
-            return res.status(404).json({
-                ok: false,
-                mensaje: 'Pedido no encontrado para eliminar'
-            });
+        const pedido = await Pedido.findById(id);
+        if (!pedido) {
+            return res.status(404).json({ ok: false, error: 'Pedido no encontrado' });
         }
-        res.status(200).json({
-            ok: true,
-            mensaje: 'Pedido eliminado',
-            pedido: pedidoEliminado
+
+        // Opcional: Revertir el stock de los productos
+        pedido.detalles.forEach(async detalle => {
+            await productClient.patch(`/${detalle.productId}`, {
+                $inc: { stock: detalle.cantidad }
+            });
         });
+
+        // Eliminar el pedido
+        await Pedido.findByIdAndDelete(id);
+        res.status(200).json({ ok: true, message: 'Pedido eliminado exitosamente' });
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            error: error.message
-        });
+        res.status(500).json({ ok: false, error: error.message });
     }
 };
+
 
 
 
