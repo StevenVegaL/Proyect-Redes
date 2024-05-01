@@ -1,14 +1,14 @@
 const axios = require('axios');
 const Pedido = require('../models/pedidoModel');
 
-// Configurar clientes API directamente aquí
+
 const userClient = axios.create({
-    baseURL: 'http://localhost:3008/api/users', // Asegúrate de ajustar la URL según tu configuración
+    baseURL: 'http://localhost:3008/api/users',
     timeout: 5000,
 });
 
 const productClient = axios.create({
-    baseURL: 'http://localhost:3009/api/productos', // Asegúrate de ajustar la URL según tu configuración
+    baseURL: 'http://localhost:3009/api/productos',
     timeout: 5000,
 });
 
