@@ -1,4 +1,56 @@
-const Pedido = require('../models/pedidosmodels'); // Asegúrate de que la ruta al modelo es correcta
+const axios = require('axios');
+const Pedido = require('../models/pedidoModel');
+
+// Configurar clientes API directamente aquí
+const userClient = axios.create({
+    baseURL: 'http://localhost:3008/api/users', // Asegúrate de ajustar la URL según tu configuración
+    timeout: 5000,
+});
+
+const productClient = axios.create({
+    baseURL: 'http://localhost:3009/api/productos', // Asegúrate de ajustar la URL según tu configuración
+    timeout: 5000,
+});
+
+
+
+
+
+// // Crear un nuevo pedido
+const createPedido = async (req, res) => {
+    try {
+        // Buscar el último pedido
+        const lastPedido = await Pedido.findOne().sort({ _id: -1 });
+
+        // Obtener el siguiente ID
+        const nextId = lastPedido ? lastPedido._id + 1 : 1;
+
+        // Crear un nuevo pedido con el siguiente ID
+        const nuevoPedido = new Pedido({
+            _id: nextId,
+            ...req.body
+        });
+
+        // Guardar el nuevo pedido
+        await nuevoPedido.save();
+
+        res.status(201).json({
+            ok: true,
+            pedido: nuevoPedido
+        });
+    } catch (error) {
+        res.status(400).json({
+            ok: false,
+            error: error.message
+        });
+    }
+};
+
+
+
+
+
+
 
 // Obtener todos los pedidos
 const getAllPedidos = async (req, res) => {
@@ -44,35 +96,6 @@ const getPedidoById = async (req, res) => {
 
 
 
-// // Crear un nuevo pedido
-const createPedido = async (req, res) => {
-    try {
-        // Buscar el último pedido
-        const lastPedido = await Pedido.findOne().sort({ _id: -1 });
-
-        // Obtener el siguiente ID
-        const nextId = lastPedido ? lastPedido._id + 1 : 1;
-
-        // Crear un nuevo pedido con el siguiente ID
-        const nuevoPedido = new Pedido({
-            _id: nextId,
-            ...req.body
-        });
-
-        // Guardar el nuevo pedido
-        await nuevoPedido.save();
-
-        res.status(201).json({
-            ok: true,
-            pedido: nuevoPedido
-        });
-    } catch (error) {
-        res.status(400).json({
-            ok: false,
-            error: error.message
-        });
-    }
-};
 
 
 
@@ -99,6 +122,7 @@ const updatePedido = async (req, res) => {
         });
     }
 };
+
 
 
 // // Eliminar un pedido por su ID
