@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password']; // Debes considerar encriptar esta contraseña
 
-    $url = 'http://localhost:3001/api/users';
+    $url = 'http://localhost:3001/api/users/new'; // Actualizamos la URL de la API para registrar un nuevo usuario
     $data = [
         'nombre' => $nombre_cliente,
         'direccion' => $direccion,

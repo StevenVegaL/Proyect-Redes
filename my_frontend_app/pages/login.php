@@ -25,9 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($user['userType'] == 'administrador') {
                 $_SESSION['admin_id'] = $user['_id'];
                 header('Location: admin_panel.php');
+                exit();
             } else {
                 $_SESSION['user_id'] = $user['_id'];
                 header('Location: user_panel.php');
+                exit();
             }
         } else {
             $message = '<input type="checkbox" id="close-alert" style="display: none;">
@@ -36,10 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                           <br>
                           <a href="index.php" class="close-alert">Cerrar</a>
                         </div>';
-            echo $message;
         }
     } else {
-        echo 'Por favor, complete todos los campos.';
+        $message = 'Por favor, complete todos los campos.';
     }
 }
 ?>

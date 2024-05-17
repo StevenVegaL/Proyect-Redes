@@ -7,19 +7,19 @@ const userController = require('../controllers/usercontroller');
 router.post('/login', userController.loginUser);
 
 // Obtener todos los usuarios
-router.get('/', userController.getUsers);
+router.get('/todos', userController.getUsers);
 
 // //Obtener un usuario por su ID
 router.get('/:id', userController.getUsuarioById);
 
 // // Crear un nuevo usuario
-router.post('/', userController.createUsuario);
+router.post('/new', userController.createUsuario);
 
 // Actualizar un usuario existente por su ID
-router.patch('/:id', userController.updateUsuario);
+router.patch('/update/:id', userController.updateUsuario);
 
 // // Eliminar un usuario por su ID
-router.delete('/:id', userController.deleteUsuario);
+router.delete('/delete/:id', userController.deleteUsuario);
 
 module.exports = router;
 
