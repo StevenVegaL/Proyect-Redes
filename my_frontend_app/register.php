@@ -41,13 +41,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-my_frontend_app\css\styles.css
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="path/to/styles.css"> <!-- Ruta al archivo CSS correspondiente -->
+    <link rel="stylesheet" href="my_frontend_app\css\styles.css"> <!-- Ruta al archivo CSS correspondiente -->
     <title>Registro - Sabor Tostado</title>
     <style>
         .alert {
