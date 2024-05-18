@@ -10,6 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password']; // Debes considerar encriptar esta contraseña
 
+    // Depuración: mostrar datos enviados
+    echo '<pre>';
+    print_r($_POST);
+    echo '</pre>';
+
     $url = 'http://localhost:3001/api/users/new'; // Actualizamos la URL de la API para registrar un nuevo usuario
     $data = [
         'nombre' => $nombre_cliente,
@@ -21,6 +26,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ];
 
     $response = makeRequest($url, 'POST', $data);
+
+    // Depuración: mostrar respuesta de la API
+    echo '<pre>';
+    print_r($response);
+    echo '</pre>';
 
     if ($response['code'] == 201) {
         $message = '<input type="checkbox" id="close-alert" style="display: none;">
@@ -47,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="my_frontend_app\css\styles.css"> <!-- Ruta al archivo CSS correspondiente -->
+    <link rel="stylesheet" href="css/styles.css"> <!-- Ruta al archivo CSS correspondiente -->
     <title>Registro - Sabor Tostado</title>
     <style>
         .alert {
@@ -55,24 +65,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            padding: 70px;
-            font-size: 40px;
-            background-color: #2b657c; /* Color verde */
+            padding: 20px;
+            font-size: 16px;
+            background-color: #2b657c; /* Color azul */
             color: white;
             border-radius: 8px;
             z-index: 1000; /* Asegura que la alerta esté por encima de otros elementos */
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
         }
 
         .close-alert {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: inline-block;
             margin-top: 10px;
             background-color: white;
             color: #2b657c;
             border: none;
-            padding: 20px 40px;
+            padding: 10px 20px;
             cursor: pointer;
             border-radius: 4px;
             transition: background-color 0.3s;
@@ -89,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-    <div class="container2">
+    <div class="container">
         <?php echo $message; ?>
     </div>
 </body>
