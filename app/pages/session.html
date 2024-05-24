@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Sabor Tostado</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <!-- Menú Hamburguesa -->
+        <div class="hamburger-menu">
+            <i class="fas fa-bars"></i>
+            <div class="dropdown-menu">
+                <a href="foro.php">Foro</a>
+                <a href="asesoramiento.php">Asesoramiento</a>
+            </div>
+        </div>
+        <a href="../index.php" class="logo">Sabor Tostado</a>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main>
+        <h1 class="main-title">Bienvenidos a Sabor Tostado</h1>
+        <p class="sub-title">Disfruta de los mejores sabores y aromas que te ofrece Sabor Tostado.</p>
+
+        <div class="container">
+            <h2>Iniciar Sesión</h2>
+            <form action="login.php" method="post" id="loginForm">
+                <input type="email" name="email" placeholder="Correo Electrónico" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+
+            <h2>Registrarse</h2>
+            <form id="registerForm" action="register.php" method="post">
+                <input type="text" name="nombre_cliente" placeholder="Nombre" required>
+                <input type="text" name="direccion" placeholder="Dirección" required>
+                <input type="text" name="telefono" placeholder="Teléfono" required maxlength="9">
+                <input type="email" name="email" placeholder="Correo Electrónico" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit">Registrarse</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <h2>El arte del café</h2>
+        <p>Disfruta de los mejores sabores y aromas que te ofrece Sabor Tostado.</p>
+        <div class="social-icons">
+            <!-- Inserta tus íconos de redes sociales aquí -->
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

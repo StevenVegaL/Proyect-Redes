@@ -1,0 +1,84 @@
+version: "3"
+
+services:
+  mongo_db:
+    image: mongo:4.0
+    restart: always
+    volumes:
+      - ./db/mongo/data:/data/db
+      - ./db/pedidos.json:/json/pedidos.json
+      - ./db/producto.json:/json/producto.json
+      - ./db/users.json:/json/users.json
+    ports:
+      - 27018:27017
+    # deploy:
+    #   placement:
+    #     constraints:
+    #       - node.hostname == servidorUbuntu
+  microuser:
+    image: microuser:1.1
+
+    depends_on:
+      - mongo_db
+    ports:
+      - 3001:3001
+    # deploy:
+    #   placement:
+    #     constraints:
+    #       - node.hostname == servidorUbuntu
+
+  microproduct:
+    image: microproduct:1.1
+    depends_on:
+      - mongo_db
+    ports:
+      - 3003:3003
+    # deploy:
+    #   placement:
+    #     constraints:
+    #       - node.hostname == servidorUbuntu
+
+  micropedidos:
+    image: micropedidos:1.1
+    depends_on:
+      - mongo_db
+    ports:
+      - 3002:3002
+    # deploy:
+    #   placement:
+    #     constraints:
+    #       - node.hostname == servidorUbuntu
+  
+  app-1:
+    image: tostado-app
+    depends_on:
+      - microuser
+      - microproduct
+      - micropedidos
+    # deploy:
+    #   placement:
+    #     constraints:
+    #       - node.hostname == clienteUbuntu
+
+  app-2:
+    image: tostado-app
+    depends_on:
+      - microuser
+      - microproduct
+      - micropedidos
+    # deploy:
+    #   placement:
+    #     constraints:
+    #       - node.hostname == clienteUbuntu
+
+  haproxy:
+    build: ./haproxy
+    ports:
+      - "1080:80"
+    depends_on:
+      - app-1
+      - app-2
+    # deploy:
+    #   placement:
+    #     constraints:
+    #       - node.hostname == servidorUbuntu
