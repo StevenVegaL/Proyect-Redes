@@ -1,0 +1,283 @@
+[{
+  "_id": 1001,
+  "nombreProducto": "Café Arábica",
+  "descripcion": "Granos de café arábica de alta calidad",
+  "precioVenta": 20,
+  "origen": "Colombia",
+  "stock": 150,
+  "proveedorId": 5001,
+  "comentarios": [
+    {
+      "comment_id": 1,
+      "comentario": "Excelente calidad",
+      "fechaComment": {
+        "$date": "2023-10-01T00:00:00.000Z"
+      }
+    },
+    {
+      "comment_id": 2,
+      "comentario": "Aroma muy bueno",
+      "fechaComment": {
+        "$date": "2023-10-05T00:00:00.000Z"
+      }
+    }
+  ]
+},
+{
+  "_id": 1002,
+  "nombreProducto": "Cafe Colombia",
+  "descripcion": "Cafe orgánico de las montañas",
+  "precioVenta": 15,
+  "origen": "Colombia",
+  "stock": 200,
+  "proveedorId": 5002,
+  "comentarios": [
+    {
+      "comment_id": 3,
+      "comentario": "Fresco y natural",
+      "fechaComment": {
+        "$date": "2023-09-20T00:00:00.000Z"
+      }
+    }
+  ]
+},
+{
+  "_id": 1003,
+  "nombreProducto": "Cafe Italiano",
+  "descripcion": "Cafe italiano, sin aditivos",
+  "precioVenta": 25,
+  "origen": "Italia",
+  "stock": 120,
+  "proveedorId": 5003,
+  "comentarios": []
+},
+{
+  "_id": 1004,
+  "nombreProducto": "Café Antioqueño",
+  "descripcion": "Café de grano completo de Antioquia, Colombia",
+  "precioVenta": 18,
+  "origen": "Colombia",
+  "stock": 180,
+  "proveedorId": 5004,
+  "comentarios": [
+    {
+      "comment_id": 4,
+      "comentario": "Sabor intenso y aromático",
+      "fechaComment": {
+        "$date": "2023-09-25T00:00:00.000Z"
+      }
+    }
+  ]
+},
+{
+  "_id": 1005,
+  "nombreProducto": "Café del Cafetero",
+  "descripcion": "Selección especial de granos del Eje Cafetero colombiano",
+  "precioVenta": 22,
+  "origen": "Colombia",
+  "stock": 160,
+  "proveedorId": 5005,
+  "comentarios": [
+    {
+      "comment_id": 5,
+      "comentario": "Cuerpo y sabor excepcionales",
+      "fechaComment": {
+        "$date": "2023-08-18T00:00:00.000Z"
+      }
+    }
+  ]
+},
+{
+  "_id": 1006,
+  "nombreProducto": "Café Etíope",
+  "descripcion": "Granos autóctonos de Etiopía, cuna del café",
+  "precioVenta": 25,
+  "origen": "Etiopía",
+  "stock": 140,
+  "proveedorId": 5006,
+  "comentarios": [
+    {
+      "comment_id": 6,
+      "comentario": "Notas florales únicas",
+      "fechaComment": {
+        "$date": "2023-10-02T00:00:00.000Z"
+      }
+    }
+  ]
+},
+{
+  "_id": 1007,
+  "nombreProducto": "Café Costarricense",
+  "descripcion": "Café premium de las montañas de Costa Rica",
+  "precioVenta": 23,
+  "origen": "Costa Rica",
+  "stock": 130,
+  "proveedorId": 5007,
+  "comentarios": [
+    {
+      "comment_id": 7,
+      "comentario": "Equilibrado y con un toque cítrico",
+      "fechaComment": {
+        "$date": "2023-09-07T00:00:00.000Z"
+      }
+    }
+  ]
+},
+{
+  "_id": 1008,
+  "nombreProducto": "Café Italiano Clásico",
+  "descripcion": "Mezcla tradicional italiana, ideal para espresso",
+  "precioVenta": 27,
+  "origen": "Italia",
+  "stock": 150,
+  "proveedorId": 5008,
+  "comentarios": [
+    {
+      "comment_id": 8,
+      "comentario": "Intensidad perfecta para un buen espresso",
+      "fechaComment": {
+        "$date": "2023-09-15T00:00:00.000Z"
+      }
+    }
+  ]
+},
+{
+  "_id": 1009,
+  "nombreProducto": "Café Arábica de Etiopía",
+  "descripcion": "Variedad Arábica pura de Etiopía, con notas frutales",
+  "precioVenta": 26,
+  "origen": "Etiopía",
+  "stock": 120,
+  "proveedorId": 5009,
+  "comentarios": [
+    {
+      "comment_id": 9,
+      "comentario": "Aroma y sabor increíblemente frescos",
+      "fechaComment": {
+        "$date": "2023-09-30T00:00:00.000Z"
+      }
+    }
+  ]
+},
+{
+  "_id": 1010,
+  "nombreProducto": "Café de Sumatra",
+  "descripcion": "Granos robustos con sabor intenso, procedentes de Indonesia",
+  "precioVenta": 24,
+  "origen": "Indonesia",
+  "stock": 110,
+  "proveedorId": 5010,
+  "comentarios": [
+    {
+      "comment_id": 10,
+      "comentario": "Profundo y con cuerpo",
+      "fechaComment": {
+        "$date": "2023-09-10T00:00:00.000Z"
+      }
+    }
+  ]
+},
+{
+  "_id": 1011,
+  "nombreProducto": "Café de Kenia",
+  "descripcion": "Granos selectos kenianos, famosos por su acidez y sabor frutal",
+  "precioVenta": 28,
+  "origen": "Kenia",
+  "stock": 90,
+  "proveedorId": 5011,
+  "comentarios": [
+    {
+      "comment_id": 11,
+      "comentario": "Sabor único, ligeramente ácido",
+      "fechaComment": {
+        "$date": "2023-09-18T00:00:00.000Z"
+      }
+    }
+  ]
+},
+{
+  "_id": 1012,
+  "nombreProducto": "Café Blue Mountain",
+  "descripcion": "Exclusivo café jamaicano con sabor suave y poco amargo",
+  "precioVenta": 30,
+  "origen": "Jamaica",
+  "stock": 80,
+  "proveedorId": 5012,
+  "comentarios": [
+    {
+      "comment_id": 12,
+      "comentario": "Excelente, suave y balanceado",
+      "fechaComment": {
+        "$date": "2023-08-22T00:00:00.000Z"
+      }
+    },
+    {
+      "comment_id": 13,
+      "comentario": "Vale cada centavo",
+      "fechaComment": {
+        "$date": "2023-10-04T00:00:00.000Z"
+      }
+    }
+  ]
+},
+{
+  "_id": 1013,
+  "nombreProducto": "Café Guatemalteco",
+  "descripcion": "Café de origen único de Guatemala, conocido por su cuerpo y dulzura",
+  "precioVenta": 26,
+  "origen": "Guatemala",
+  "stock": 100,
+  "proveedorId": 5013,
+  "comentarios": [
+    {
+      "comment_id": 14,
+      "comentario": "Dulzura perfecta, sin ser empalagoso",
+      "fechaComment": {
+        "$date": "2023-09-11T00:00:00.000Z"
+      }
+    }
+  ]
+},
+{
+  "_id": 1014,
+  "nombreProducto": "Café Bourbon",
+  "descripcion": "Variedad de café Bourbon, suave y con notas de caramelo",
+  "precioVenta": 24,
+  "origen": "Varios",
+  "stock": 85,
+  "proveedorId": 5014,
+  "comentarios": [
+    {
+      "comment_id": 15,
+      "comentario": "Perfecto para el desayuno",
+      "fechaComment": {
+        "$date": "2023-10-07T00:00:00.000Z"
+      }
+    }
+  ]
+},
+{
+  "_id": 1015,
+  "nombreProducto": "Café Geisha",
+  "descripcion": "Café Geisha, premiado por su perfil aromático floral",
+  "precioVenta": 35,
+  "origen": "Panamá",
+  "stock": 70,
+  "proveedorId": 5015,
+  "comentarios": [
+    {
+      "comment_id": 16,
+      "comentario": "Aroma increíble, muy distintivo",
+      "fechaComment": {
+        "$date": "2023-09-29T00:00:00.000Z"
+      }
+    },
+    {
+      "comment_id": 17,
+      "comentario": "El mejor café que he probado",
+      "fechaComment": {
+        "$date": "2023-10-03T00:00:00.000Z"
+      }
+    }
+  ]
+}]
